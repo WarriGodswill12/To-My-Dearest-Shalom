@@ -190,11 +190,20 @@
 
             var textAnimate = eval(Jscex.compile("async", function () {
                 $("#code").show().typewriter();
+
                 var textDiv = document.getElementById("text");
+                // Start auto-scroll while typing
                 var scrollInterval = setInterval(function () {
                     textDiv.scrollTop = textDiv.scrollHeight;
                 }, 50);
+
+                // Wait until typing is finished
+                $await(Jscex.Async.sleep($("#code").text().length * 100)); // approximate duration
+
+                // Stop auto-scroll after typing is done
+                clearInterval(scrollInterval);
             }));
+
 
             var runAsync = eval(Jscex.compile("async", function () {
                 $await(seedAnimate());
